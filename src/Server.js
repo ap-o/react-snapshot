@@ -7,6 +7,7 @@ export default class Server {
   constructor(baseDir, publicPath, port, proxy) {
     const app = express()
 
+
     app.get('*', (req, res, next) => {
       // This makes sure the sockets close down so that
       // we can gracefully shutdown the server
@@ -23,6 +24,8 @@ export default class Server {
       }),
       express.static(baseDir, { index: '200.html' })
     )
+
+    app.use(publicPath, express.static(baseDir))
 
     if (proxy) {
       if (typeof proxy !== "string") throw new Error("Only string proxies are implemented currently.")
